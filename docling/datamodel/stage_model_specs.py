@@ -1043,6 +1043,26 @@ VLM_CONVERT_GRANITE_VISION = StageModelPreset(
     default_engine_type=VlmEngineType.AUTO_INLINE,
 )
 
+VLM_CONVERT_COHERE_OCR = StageModelPreset(
+    preset_id="cohere_ocr",
+    name="Cohere-OCR",
+    description="Cohere Aya model for markdown conversion via OpenAI-compatible API",
+    model_spec=VlmModelSpec(
+        name="Cohere-Aya-Vision-32b",
+        default_repo_id="c4ai-aya-vision-32b",  # This is the model name for the API
+        prompt="Convert this page to markdown. Do not miss any text and only output the bare markdown!",
+        response_format=ResponseFormat.MARKDOWN,
+        supported_engines={VlmEngineType.API},  # It's a generic OpenAI-compatible API
+        api_overrides={
+            VlmEngineType.API: ApiModelConfig(
+                params={"model": "c4ai-aya-vision-32b", "max_tokens": 4096}
+            ),
+        },
+    ),
+    scale=2.0,
+    default_engine_type=VlmEngineType.API,
+)
+
 VLM_CONVERT_PIXTRAL = StageModelPreset(
     preset_id="pixtral",
     name="Pixtral-12B",
